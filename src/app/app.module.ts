@@ -10,8 +10,12 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AuthServiceService } from './auth-service.service';
 import { environment } from 'src/environments/environment';
+
+import { Geolocation } from "@ionic-native/geolocation/ngx";
+import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
+
+import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,8 +29,11 @@ import { environment } from 'src/environments/environment';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    StatusBar, // Asegúrate de tener StatusBar aquí
-    SplashScreen // Asegúrate de tener SplashScreen aquí
+    StatusBar,
+    SplashScreen,
+    Geolocation,
+    NativeGeocoder,
+    Camera
   ],
   bootstrap: [AppComponent],
 })

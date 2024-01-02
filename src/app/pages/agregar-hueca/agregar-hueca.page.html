@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>AgregarHueca</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">AgregarHueca</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <!-- Campo para tomar una foto o subir desde la galería -->
+    <ion-item>
+      <ion-label>Foto</ion-label>
+      <ion-button (click)="photoService.addNewToGallery()">Añade una foto</ion-button>
+    </ion-item>
+
+    <!-- Campos para el nombre de la locación y descripción -->
+    <ion-item>
+      <ion-label position="floating">Nombre de la locación</ion-label>
+      <ion-input [(ngModel)]="nombreLocacion" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea [(ngModel)]="descripcionLocacion"></ion-textarea>
+    </ion-item>
+
+    <!-- Botón para obtener ubicación -->
+    <ion-item>
+      <ion-button (click)="getCurrentCoordinates()" expand="block">
+        Obtener ubicación
+      </ion-button>
+    </ion-item>
+
+    <!-- Muestra de coordenadas obtenidas -->
+    <ion-list-header>
+      Coordenadas de la ubicación
+    </ion-list-header>
+    <ion-item>
+      <ion-label>Latitude</ion-label>
+      <ion-badge color="danger" slot="end">{{latitude}}</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>Longitud</ion-label>
+      <ion-badge color="danger" slot="end">{{longitude}}</ion-badge>
+    </ion-item>
+
+    <!-- Botón para guardar locación -->
+    <ion-item>
+      <ion-button (click)="guardarLocacion()" expand="block">
+        Guardar Hueca
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

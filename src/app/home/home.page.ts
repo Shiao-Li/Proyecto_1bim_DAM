@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthServiceService } from '../auth-service.service';
+import { AuthServiceService } from '../services/auth-service.service';
+import { PhotoService } from '../services/photo.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit{
   email :any
-  constructor(private authService:AuthServiceService,private router: Router) {}
+  constructor(private authService:AuthServiceService,private router: Router, public photoService: PhotoService) {}
   ngOnInit(): void {
    
     this.authService.getProfile().then((user) =>{
@@ -25,4 +26,8 @@ export class HomePage implements OnInit{
     this.router.navigate(['/landing'])
   })
  }
+
+ AgregarHueca() {
+    this.router.navigateByUrl('/agregar-hueca'); // Reemplaza 'nueva-pagina' con la ruta de tu nueva página
+  }
 }

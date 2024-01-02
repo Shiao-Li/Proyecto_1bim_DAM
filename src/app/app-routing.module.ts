@@ -34,6 +34,10 @@ const routes: Routes = [
   {
     path: 'splash',
     loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
+  },
+  {
+    path: 'agregar-hueca',
+    loadChildren: () => import('./pages/agregar-hueca/agregar-hueca.module').then( m => m.AgregarHuecaPageModule)
   }
 ];
 
