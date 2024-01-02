@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthServiceService } from '../services/auth-service.service';
-import { PhotoService } from '../services/photo.service';
+import { UserPhoto, PhotoService } from 'src/app/services/photo.service';
 import { Router } from '@angular/router';
+import { ActionSheetController } from '@ionic/angular';
+import { AuthServiceService } from '../services/auth-service.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit{
   email :any
-  constructor(private authService:AuthServiceService,private router: Router, public photoService: PhotoService) {}
+  constructor(private authService:AuthServiceService,private router: Router,  public photoService: PhotoService, public actionSheetController: ActionSheetController) {}
   ngOnInit(): void {
    
     this.authService.getProfile().then((user) =>{
@@ -18,6 +19,27 @@ export class HomePage implements OnInit{
         console.log(user);
         
     })
+  }
+  public async showActionSheet(photo: UserPhoto, position: number) {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Photos',
+      buttons: [{
+        text: 'Delete',
+        role: 'destructive',
+        icon: 'trash',
+        handler: () => {
+          this.photoService.deletePicture(photo, position);
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          // Nothing to do, action sheet is automatically closed
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
  signOut(){

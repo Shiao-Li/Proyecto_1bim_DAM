@@ -15,25 +15,21 @@ export class PhotoService {
   constructor(private platform: Platform) {}
 
   public async loadSaved() {
-    // Retrieve cached photo array data
-    const photoList = await Preferences.get({ key: this.PHOTO_STORAGE });
-    this.photos = JSON.parse(photoList?.value || '[]') as UserPhoto[];
+    // Retrieve cached photo array data (filepaths)
+    const photoFilepaths = await Preferences.get({ key: this.PHOTO_STORAGE });
+    const savedPhotoFilepaths = JSON.parse(photoFilepaths.value || '[]');
 
-    // If running on the web...
-    if (!this.platform.is('hybrid')) {
-      // Display the photo by reading into base64 format
-      for (let photo of this.photos) {
-        // Read each saved photo's data from the Filesystem
-        if (photo.filepath) {
-          const readFile = await Filesystem.readFile({
-            path: photo.filepath,
-            directory: Directory.Data,
-          });
-
-          // Web platform only: Load the photo as base64 data
-          photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
-        }
-      }
+    // Load and display photos based on stored filepaths
+    this.photos = [];
+    for (let filepath of savedPhotoFilepaths) {
+      const photo = { filepath, webviewPath: '' }; // Create an empty photo object with only the filepath
+      this.photos.push(photo);
+      // Read each saved photo's data from the Filesystem and assign webviewPath
+      const readFile = await Filesystem.readFile({
+        path: photo.filepath,
+        directory: Directory.Data,
+      });
+      photo.webviewPath = `data:image/jpeg;base64,${readFile.data}`;
     }
   }
 
@@ -47,14 +43,15 @@ export class PhotoService {
 
     const savedImageFile = await this.savePicture(capturedPhoto);
 
-    // Add new photo to Photos array
-    this.photos.unshift(savedImageFile);
-
-    // Cache all photo data for future retrieval
-    Preferences.set({
-      key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
-    });
+    // Add new photo filepath to Photos array
+    if (savedImageFile.filepath) {
+      this.photos.unshift({ filepath: savedImageFile.filepath, webviewPath: savedImageFile.webviewPath });
+      // Cache only the filepath for future retrieval
+      Preferences.set({
+        key: this.PHOTO_STORAGE,
+        value: JSON.stringify(this.photos.map(photo => photo.filepath)),
+      });
+    }
   }
 
   private async savePicture(photo: Photo) {
@@ -75,7 +72,7 @@ export class PhotoService {
     } else {
       return {
         filepath: fileName,
-        webviewPath: photo.webPath ?? '',
+        webviewPath: photo.webPath || '',
       };
     }
   }
@@ -83,13 +80,14 @@ export class PhotoService {
   private async readAsBase64(photo: Photo) {
     if (this.platform.is('hybrid')) {
       const file = await Filesystem.readFile({
-        path: photo.path ?? '',
+        path: photo.path || '',
       });
 
       return file.data;
     } else {
-      const response = await fetch(photo.webPath ?? '');
+      const response = await fetch(photo.webPath!);
       const blob = await response.blob();
+
       return (await this.convertBlobToBase64(blob)) as string;
     }
   }
@@ -99,7 +97,7 @@ export class PhotoService {
 
     Preferences.set({
       key: this.PHOTO_STORAGE,
-      value: JSON.stringify(this.photos),
+      value: JSON.stringify(this.photos.map(photo => photo.filepath)),
     });
 
     const filename = photo.filepath.substr(photo.filepath.lastIndexOf('/') + 1);
@@ -109,7 +107,7 @@ export class PhotoService {
     });
   }
 
-  private convertBlobToBase64 = (blob: Blob) =>
+  convertBlobToBase64 = (blob: Blob) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onerror = reject;
