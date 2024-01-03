@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ConfirmationPageRoutingModule } from './confirmation-routing.module';
+import { EditarHuecaPageRoutingModule } from './editar-hueca-routing.module';
 
-import { ConfirmationPage } from './confirmation.page';
+import { EditarHuecaPage } from './editar-hueca.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ConfirmationPageRoutingModule
+    EditarHuecaPageRoutingModule
   ],
-  declarations: [ConfirmationPage]
+  declarations: [EditarHuecaPage]
 })
-export class ConfirmationPageModule {}
+export class EditarHuecaPageModule {}

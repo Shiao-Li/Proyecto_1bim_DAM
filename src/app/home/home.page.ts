@@ -35,7 +35,21 @@ export class HomePage implements OnInit {
       header: hueca.nombre,
       buttons: [
         {
-          text: 'Delete',
+          text: 'Ver Detalle',
+          icon: 'information',
+          handler: () => {
+            this.verDetalleHueca(hueca.id); // Llama a la función para ver el detalle
+          }
+        },
+        {
+          text: 'Editar Hueca',
+          icon: 'create',
+          handler: () => {
+            this.editarHueca(hueca.id); // Llama a la función para editar la hueca
+          }
+        },
+        {
+          text: 'Eliminar',
           role: 'destructive',
           icon: 'trash',
           handler: () => {
@@ -43,16 +57,21 @@ export class HomePage implements OnInit {
           }
         },
         {
-          text: 'Cancel',
+          text: 'Cancelar',
           icon: 'close',
-          role: 'cancel',
-          handler: () => {
-            // Acción en caso de cancelar
-          }
+          role: 'cancel'
         }
       ]
     });
     await actionSheet.present();
+  }
+
+  verDetalleHueca(id: string) {
+    this.router.navigateByUrl(`/detalle-hueca/${id}`); // Reemplaza 'detalle-hueca' con la ruta adecuada para ver detalles
+  }
+
+  editarHueca(id: string) {
+    this.router.navigateByUrl(`/editar-hueca/${id}`); // Reemplaza 'editar-hueca' con la ruta adecuada para editar
   }
 
   signOut() {

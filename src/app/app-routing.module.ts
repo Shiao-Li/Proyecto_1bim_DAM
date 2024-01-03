@@ -20,16 +20,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule)
   },
   {
-    path: 'verify',
-    loadChildren: () => import('./pages/verify/verify.module').then( m => m.VerifyPageModule)
-  },
-  {
     path: 'landing',
     loadChildren: () => import('./pages/landing/landing.module').then( m => m.LandingPageModule)
-  },
-  {
-    path: 'confirmation',
-    loadChildren: () => import('./pages/confirmation/confirmation.module').then( m => m.ConfirmationPageModule)
   },
   {
     path: 'splash',
@@ -38,6 +30,14 @@ const routes: Routes = [
   {
     path: 'agregar-hueca',
     loadChildren: () => import('./pages/agregar-hueca/agregar-hueca.module').then( m => m.AgregarHuecaPageModule)
+  },
+  {
+    path: 'detalle-hueca',
+    loadChildren: () => import('./pages/detalle-hueca/detalle-hueca.module').then( m => m.DetalleHuecaPageModule)
+  },
+  {
+    path: 'editar-hueca',
+    loadChildren: () => import('./pages/editar-hueca/editar-hueca.module').then( m => m.EditarHuecaPageModule)
   }
 ];
 

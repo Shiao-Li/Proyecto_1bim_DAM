@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { VerifyPageRoutingModule } from './verify-routing.module';
+import { DetalleHuecaPageRoutingModule } from './detalle-hueca-routing.module';
 
-import { VerifyPage } from './verify.page';
+import { DetalleHuecaPage } from './detalle-hueca.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VerifyPageRoutingModule
+    DetalleHuecaPageRoutingModule
   ],
-  declarations: [VerifyPage]
+  declarations: [DetalleHuecaPage]
 })
-export class VerifyPageModule {}
+export class DetalleHuecaPageModule {}
