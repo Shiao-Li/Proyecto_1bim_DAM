@@ -33,3 +33,22 @@
   border-radius: 50px;
   width: 80%;
 }
+
+ion-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.first-image {
+  width: 100%;
+  height: auto;
+  max-height: 200px; /* Ajusta el tamaño máximo de la imagen según sea necesario */
+  object-fit: cover; /* Para mantener la relación de aspecto */
+}
+
+ion-card-title {
+  margin-top: 10px; /* Espacio entre la imagen y el título */
+}
+

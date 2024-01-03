@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, Platform } from '@ionic/angular';
+import { Component } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { UserPhoto, PhotoService } from 'src/app/services/photo.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,65 +8,74 @@ import { Router } from '@angular/router';
   templateUrl: './agregar-hueca.page.html',
   styleUrls: ['./agregar-hueca.page.scss'],
 })
-export class AgregarHuecaPage implements OnInit {
+export class AgregarHuecaPage {
   latitude: any = 0;
   longitude: any = 0;
   nombreLocacion: string = '';
   descripcionLocacion: string = '';
-  fotoLocacion: string = '';
+  fotosLocacion: File[] = [];
+  fotosPreview: { file: File, url: string }[] = [];
 
   constructor(
-    private platform: Platform,
     private geolocation: Geolocation,
     private firebaseService: FirebaseService,
-    private router: Router,
-    public photoService: PhotoService, public actionSheetController: ActionSheetController
-  ) { }
+    private router: Router
+  ) {}
 
-  async ngOnInit() {
-    this.getCurrentCoordinates();
-    await this.photoService.loadSaved();
-  }
-  public async showActionSheet(photo: UserPhoto, position: number) {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Photos',
-      buttons: [{
-        text: 'Delete',
-        role: 'destructive',
-        icon: 'trash',
-        handler: () => {
-          this.photoService.deletePicture(photo, position);
-        }
-      }, {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          // Nothing to do, action sheet is automatically closed
-         }
-      }]
-    });
-    await actionSheet.present();
-  }
-
-  getCurrentCoordinates() {
-    this.geolocation.getCurrentPosition().then((resp) => {
+  async getCurrentCoordinates() {
+    try {
+      const resp = await this.geolocation.getCurrentPosition();
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
-    }).catch((error) => {
+    } catch (error) {
       console.log('Error, no se puede obtener tu ubicación', error);
-    });
+    }
   }
 
-  guardarLocacion() {
-    this.firebaseService.guardarDatosLocacion(this.nombreLocacion, this.descripcionLocacion, this.latitude, this.longitude, this.fotoLocacion)
-      .then(() => {
-        console.log('Locación guardada en Firebase');
-        this.router.navigate(['/home']); // Redirigir a la vista de inicio después de guardar
-      })
-      .catch(error => {
-        console.error('Error al guardar la locación en Firebase:', error);
-      });
+  onFilesSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.fotosLocacion = [];
+      this.fotosPreview = [];
+
+      for (let i = 0; i < Math.min(input.files.length, 3); i++) {
+        const file = input.files[i];
+        this.fotosLocacion.push(file);
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.fotosPreview.push({ file, url: reader.result as string });
+        };
+        reader.readAsDataURL(file);
+      }
+    }
   }
 
+  guardarHueca() {
+    if (
+      this.nombreLocacion &&
+      this.descripcionLocacion &&
+      this.latitude &&
+      this.longitude &&
+      this.fotosLocacion.length > 0
+    ) {
+      this.firebaseService
+        .guardarDatosHuecaConFotos(
+          this.nombreLocacion,
+          this.descripcionLocacion,
+          this.latitude,
+          this.longitude,
+          this.fotosLocacion
+        )
+        .then(() => {
+          console.log('Hueca y fotos guardadas en Firebase');
+          this.router.navigate(['/home']);
+        })
+        .catch((error) => {
+          console.error('Error al guardar la hueca y fotos en Firebase:', error);
+        });
+    } else {
+      console.error('Todos los campos y al menos una foto son requeridos');
+    }
+  }
 }

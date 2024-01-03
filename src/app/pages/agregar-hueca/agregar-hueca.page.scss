@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.image-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px; /* Espaciado entre las imágenes */
+  }
+  
+  .selected-photo {
+    max-width: 200px; /* Ancho máximo de cada imagen */
+    max-height: 200px; /* Altura máxima de cada imagen */
+    width: auto;
+    height: auto;
+  }
+
+.save-button {
+    position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50px;
+  width: 80%;
+}

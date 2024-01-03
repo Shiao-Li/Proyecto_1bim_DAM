@@ -1,55 +1,67 @@
 import { Component, OnInit } from '@angular/core';
-import { UserPhoto, PhotoService } from 'src/app/services/photo.service';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { AuthServiceService } from '../services/auth-service.service';
+import { FirebaseService } from '../services/firebase.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit{
-  email :any
-  constructor(private authService:AuthServiceService,private router: Router,  public photoService: PhotoService, public actionSheetController: ActionSheetController) {}
+export class HomePage implements OnInit {
+  email: any;
+  huecas: any[] = [];
+
+  constructor(
+    private authService: AuthServiceService,
+    private router: Router,
+    public actionSheetController: ActionSheetController,
+    private firebaseService: FirebaseService
+  ) {}
+
   ngOnInit(): void {
-   
-    this.authService.getProfile().then((user) =>{
-        this.email = user?.email
-        console.log(user);
-        
-    })
+    this.authService.getProfile().then((user) => {
+      this.email = user?.email;
+
+      this.firebaseService.getHuecas().subscribe((data: any[]) => {
+        this.huecas = data;
+      });
+    });
   }
-  public async showActionSheet(photo: UserPhoto, position: number) {
+
+  public async showActionSheet(hueca: any, position: number) {
     const actionSheet = await this.actionSheetController.create({
-      header: 'Photos',
-      buttons: [{
-        text: 'Delete',
-        role: 'destructive',
-        icon: 'trash',
-        handler: () => {
-          this.photoService.deletePicture(photo, position);
+      header: hueca.nombre,
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => {
+            this.firebaseService.deleteHueca(hueca.id);
+          }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {
+            // Acción en caso de cancelar
+          }
         }
-      }, {
-        text: 'Cancel',
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {
-          // Nothing to do, action sheet is automatically closed
-        }
-      }]
+      ]
     });
     await actionSheet.present();
   }
 
- signOut(){
+  signOut() {
+    this.authService.signOut().then(() => {
+      this.router.navigate(['/landing']);
+    });
+  }
 
-  this.authService.signOut().then(() =>{
-    this.router.navigate(['/landing'])
-  })
- }
-
- AgregarHueca() {
-    this.router.navigateByUrl('/agregar-hueca'); // Reemplaza 'nueva-pagina' con la ruta de tu nueva página
+  AgregarHueca() {
+    this.router.navigateByUrl('/agregar-hueca');
   }
 }
