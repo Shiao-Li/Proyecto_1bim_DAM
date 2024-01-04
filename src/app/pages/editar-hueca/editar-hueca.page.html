@@ -1,13 +1,48 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>editar-hueca</ion-title>
+    <ion-title>Editar Hueca</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">editar-hueca</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card *ngIf="hueca">
+    <ion-card-header>
+      <ion-card-title>Editar detalles de {{ hueca.nombre }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Nombre</ion-label>
+        <ion-input type="text" [(ngModel)]="nombre"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-textarea [(ngModel)]="descripcion"></ion-textarea>
+      </ion-item>
+
+      <!-- Botón para obtener ubicación -->
+      <ion-item>
+        <ion-button (click)="getCurrentCoordinates()" expand="block">
+          Obtener ubicación
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Latitud</ion-label>
+        <ion-badge color="danger" slot="end">{{latitude}}</ion-badge>
+      </ion-item>
+      <ion-item>
+        <ion-label>Longitud</ion-label>
+        <ion-badge color="danger" slot="end">{{longitude}}</ion-badge>
+      </ion-item>
+      
+      <ion-button expand="block" (click)="updateHueca()">Guardar cambios</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" style="margin-bottom: 30px;">
+    <ion-fab-button type="submit" (click)="redirectToHome()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

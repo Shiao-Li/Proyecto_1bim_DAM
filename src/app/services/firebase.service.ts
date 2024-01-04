@@ -27,6 +27,20 @@ export class FirebaseService {
     return this.firestore.collection('Huecas').doc(huecaId).valueChanges();
   }
 
+  // Método para actulizar datos de la hueca
+  updateHueca(huecaId: string, nombre: string, descripcion: string, latitude: number, longitude: number) {
+    return this.firestore.collection('Huecas').doc(huecaId).update({
+      nombre,
+      descripcion
+    });
+  }
+  
+  updateCoordinates(huecaId: string, latitude: number, longitude: number) {
+    return this.firestore.collection('Huecas').doc(huecaId).update({
+      latitude,
+      longitude
+    });
+  }
 
   // Método para eliminar una hueca por su ID
   deleteHueca(huecaId: string) {

@@ -36,7 +36,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/detalle-hueca/detalle-hueca.module').then(m => m.DetalleHuecaPageModule)
   },
   {
-    path: 'editar-hueca',
+    path: 'editar-hueca/:id',
     loadChildren: () => import('./pages/editar-hueca/editar-hueca.module').then(m => m.EditarHuecaPageModule)
   }
 ];
