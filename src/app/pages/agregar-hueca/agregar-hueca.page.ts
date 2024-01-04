@@ -78,4 +78,9 @@ export class AgregarHuecaPage {
       console.error('Todos los campos y al menos una foto son requeridos');
     }
   }
+
+  redirectToHome() {
+    // Redirige al usuario al componente 'home'
+    this.router.navigate(['/home']);
+  }
 }

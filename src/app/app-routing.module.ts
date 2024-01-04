@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
   },
   {
     path: '',
@@ -13,31 +13,31 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
   {
     path: 'signup',
-    loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule)
+    loadChildren: () => import('./pages/signup/signup.module').then(m => m.SignupPageModule)
   },
   {
     path: 'landing',
-    loadChildren: () => import('./pages/landing/landing.module').then( m => m.LandingPageModule)
+    loadChildren: () => import('./pages/landing/landing.module').then(m => m.LandingPageModule)
   },
   {
     path: 'splash',
-    loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
+    loadChildren: () => import('./pages/splash/splash.module').then(m => m.SplashPageModule)
   },
   {
     path: 'agregar-hueca',
-    loadChildren: () => import('./pages/agregar-hueca/agregar-hueca.module').then( m => m.AgregarHuecaPageModule)
+    loadChildren: () => import('./pages/agregar-hueca/agregar-hueca.module').then(m => m.AgregarHuecaPageModule)
   },
   {
-    path: 'detalle-hueca',
-    loadChildren: () => import('./pages/detalle-hueca/detalle-hueca.module').then( m => m.DetalleHuecaPageModule)
+    path: 'detalle-hueca/:id',
+    loadChildren: () => import('./pages/detalle-hueca/detalle-hueca.module').then(m => m.DetalleHuecaPageModule)
   },
   {
     path: 'editar-hueca',
-    loadChildren: () => import('./pages/editar-hueca/editar-hueca.module').then( m => m.EditarHuecaPageModule)
+    loadChildren: () => import('./pages/editar-hueca/editar-hueca.module').then(m => m.EditarHuecaPageModule)
   }
 ];
 

@@ -1,13 +1,42 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>detalle-hueca</ion-title>
+    <ion-title>Detalle de Hueca</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">detalle-hueca</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card *ngIf="hueca">
+    <!-- Mostrar el nombre de la hueca -->
+    <ion-card-header>
+      <ion-card-title>{{ hueca.nombre }}</ion-card-title>
+    </ion-card-header>
+
+    <!-- Mostrar las fotos -->
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" *ngFor="let foto of hueca.fotos">
+            <ion-img [src]="foto" class="foto-hueca"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+    <!-- Mostrar la descripción -->
+    <ion-card-content>
+      <ion-card-subtitle>{{ hueca.descripcion }}</ion-card-subtitle>
+      <!-- Mostrar otras informaciones o detalles si es necesario -->
+
+      <!-- Agregar el botón para abrir en Google Maps -->
+      <ion-button (click)="openGoogleMaps()" expand="block">
+        Abrir en Google Maps
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+  
+  <ion-fab vertical="bottom" horizontal="end" style="margin-bottom: 30px;">
+    <ion-fab-button type="submit" (click)="redirectToHome()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
