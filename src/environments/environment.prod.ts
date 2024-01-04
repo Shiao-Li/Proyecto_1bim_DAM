@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   firebaseConfig: {
-    apiKey: "",
+    apiKey: "AIzaSyClu3qSBkv8jDbeRy3In8PQy2XEmnU2ZPw",
     authDomain: "huecas-dam-1bim.firebaseapp.com",
     projectId: "huecas-dam-1bim",
     storageBucket: "huecas-dam-1bim.appspot.com",
