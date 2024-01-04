@@ -74,10 +74,19 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl(`/editar-hueca/${id}`); // Reemplaza 'editar-hueca' con la ruta adecuada para editar
   }
 
-  signOut() {
-    this.authService.signOut().then(() => {
-      this.router.navigate(['/landing']);
-    });
+  async signOut() {
+    try {
+      const result = await this.authService.signOut();
+      if (result) {
+        // Redirige a la página de inicio o a donde desees después de cerrar sesión
+        this.router.navigate(['/landing']);
+      } else {
+        // Manejar el caso si hay un error al cerrar sesión
+        console.error('Error al cerrar sesión');
+      }
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
   }
 
   AgregarHueca() {

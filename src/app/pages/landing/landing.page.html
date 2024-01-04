@@ -4,10 +4,28 @@
     <h1 class="main-title">Descubre las mejores "Huecas" de Comida</h1>
     <ion-img src="assets/landing1.jpg" class="bottom-image"></ion-img>
   </div>
-  
-  <ion-fab vertical="bottom" horizontal="end" style="margin-bottom: 30px;">
-    <ion-fab-button [routerLink]="['/login']" class="custom-fab-button">
-      <span class="button-text">Empieza ahora!</span>
-    </ion-fab-button>
-  </ion-fab>
+
+  <ion-grid>
+    <ion-row class="title-row">
+      <ion-col size="12">
+        <h1 class="title-header">Echale un ojo a las siguientes huecas 😋</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6" *ngFor="let hueca of huecas; let i = index">
+        <ion-card (click)="showActionSheet(hueca, i)">
+          <ion-card-content>
+            <ion-img [src]="hueca.fotos[0]" class="first-image"></ion-img>
+            <ion-card-title>{{ hueca.nombre }}</ion-card-title>
+            <!-- Aquí puedes mostrar más detalles de la hueca si es necesario -->
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+<ion-fab vertical="bottom" horizontal="end" style="margin-bottom: 30px;">
+  <ion-fab-button [routerLink]="['/login']" class="custom-fab-button">
+    <span class="button-text">Empieza ahora!</span>
+  </ion-fab-button>
+</ion-fab>

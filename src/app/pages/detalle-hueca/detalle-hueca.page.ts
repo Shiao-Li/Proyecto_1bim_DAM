@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Router } from '@angular/router';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-detalle-hueca',
@@ -17,7 +18,8 @@ export class DetalleHuecaPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private firebaseService: FirebaseService,
-    private router: Router
+    private router: Router,
+    private authService: AuthServiceService
   ) { }
 
   ngOnInit() {
@@ -40,7 +42,14 @@ export class DetalleHuecaPage implements OnInit {
   }
 
   redirectToHome() {
-    // Redirige al usuario al componente 'home'
-    this.router.navigate(['/home']);
+    this.authService.ngFireAuth.authState.subscribe(user => {
+      if (user) {
+        // Redirige al '/home' si el usuario está autenticado
+        this.router.navigate(['/home']);
+      } else {
+        // Redirige al '/landing' si el usuario no está autenticado
+        this.router.navigate(['/landing']);
+      }
+    });
   }
 }

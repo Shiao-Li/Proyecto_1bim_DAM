@@ -49,11 +49,6 @@ export class SignupPage implements OnInit {
   get errorControl() {
     return this.ionicForm.controls;
   }
-  async signUpWithGoogle(){
-    const user = await this.authService.GoogleAuth().then(()=>{
-      this.router.navigate(['/home'])
-    })
-  }
  
   async signUP(){
     const loading = await this.loadingController.create();
@@ -74,10 +69,7 @@ export class SignupPage implements OnInit {
       return console.log('Please provide all the required values!');
     }
   }
-  signUpUsingPhonenumber(contact:string){
-    
-    this.authService.signInWithPhoneNumber(contact)
-  }
+  
   async presentToast(message: undefined) {
     console.log(message);
     
