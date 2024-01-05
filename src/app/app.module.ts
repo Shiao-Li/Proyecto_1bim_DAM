@@ -15,7 +15,6 @@ import { environment } from 'src/environments/environment.prod';
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { NativeGeocoder } from "@ionic-native/native-geocoder/ngx";
 
-import { Camera } from '@ionic-native/camera/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,8 +31,7 @@ import { Camera } from '@ionic-native/camera/ngx';
     StatusBar,
     SplashScreen,
     Geolocation,
-    NativeGeocoder,
-    Camera
+    NativeGeocoder
   ],
   bootstrap: [AppComponent],
 })
